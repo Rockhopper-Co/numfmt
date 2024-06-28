@@ -19,7 +19,8 @@
   "exports": {
     ".": {
       "require": "./dist/numfmt.js",
-      "default": "./lib/index.js"
+      "default": "./lib/index.js",
+      "types": "./dist/numfmt.d.ts"
     }
   },
   "preferGlobal": false,
