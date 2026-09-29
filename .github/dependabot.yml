@@ -1,0 +1,41 @@
+# Dependabot configuration.
+#
+# Every dependency here is a devDependency: the package ships lib/ and the
+# committed dist/; the toolchain below only builds, lints and tests them.
+# Consumers pin a commit in their lockfiles (frontend and addin:
+# "github:Rockhopper-Co/numfmt"), so a bump here never reaches them until
+# their pin moves.
+#
+# Every PR Dependabot opens is an untrusted proposal — see
+# knowledge-base/docs/conventions/dependabot-review.md (read the lockfile diff,
+# verify strict `npm ci`, never auto-merge). A bump never rebuilds dist/: the
+# committed dist/numfmt.js stays what `require` consumers load until someone
+# rebuilds and commits it, and a rebuild under a newer toolchain is NOT
+# byte-identical (newer browserslist data changes what Babel lowers).
+#
+# Minor and patch bumps arrive as one grouped PR. Majors stay ungrouped so each
+# gets its own breaking-change review; they are NOT ignored, because that would
+# hide a major-version security fix.
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
+    groups:
+      dev-minor-patch:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+
+  # No workflow exists under .github/workflows yet, so this block has nothing to
+  # update today. It is here so the first workflow added is covered from day one.
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+    open-pull-requests-limit: 5
